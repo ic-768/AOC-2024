@@ -11,15 +11,14 @@ for line in lines:
         else:
             list1.append(int(number))
 
-
 sorted1 = sorted(list1)
 sorted2 = sorted(list2)
-
-print(len(sorted1), len(sorted2))
 
 sum = 0
 
 for i in range(len(sorted1)):
-    sum += abs(sorted1[i] - sorted2[i])
+    left_element = sorted1[i]
+    right_element = sorted2[i]
+    sum += abs(left_element - right_element)
 
 print(sum)
