@@ -1,6 +1,3 @@
-list1 = []
-list2 = []
-
 with open("input.txt", "r") as file:
     lines = file.readlines()
     num_safe_reports = 0
