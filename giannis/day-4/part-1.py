@@ -67,8 +67,6 @@ with open("input.txt", "r") as file:
     diag1_rev = [item[::-1] for item in diag1]
     diag2_rev = [item[::-1] for item in diag2]
 
-    # reverse each string array. We can't just reverse the whole thing because then we get false positives
-
     sum = 0
     for each in [
         horiz,
