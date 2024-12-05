@@ -1,24 +1,48 @@
-directions_to_check = [
-    # x, y
-    (1, 1),  # down and right
-    (-1, 1),  # down and left
-    (1, -1),  # up and right
-    (-1, -1),  # up and left
-]
+# directions_to_check = [
+#    # x, y
+#    (1, 1),  # down and right
+#    (-1, 1),  # down and left
+#    (1, -1),  # up and right
+#    (-1, -1),  # up and left
+# ]
 
 
 def check_neighbors(text, x, y):
-    # TODO replace magic numbers with len of lines
-    two_char_buffer = len(text) - 2
-    if x < 1 or x > two_char_buffer or y < 1 or y > two_char_buffer:
-        # out of bounds
-        return
+    max_index = len(text) - 2
 
-    for dx, dy in directions_to_check:
-        char = text[y + dy][x + dx]
-        if char != "M" and char != "S":
-            return False
-    return True
+    # out of bounds
+    if x < 1 or x > max_index or y < 1 or y > max_index:
+        return False
+
+    down_right = text[y + 1][x + 1]
+    down_left = text[y - 1][x + 1]
+    up_right = text[y + 1][x - 1]
+    up_left = text[y - 1][x - 1]
+
+    #  S S
+    #   A
+    #  M M
+    if down_right == "M" and up_left == "S" and down_left == "M" and up_right == "S":
+        return True
+    # M M
+    #  A
+    # S S
+    elif down_right == "S" and up_left == "M" and down_left == "S" and up_right == "M":
+        return True
+
+    # S M
+    #  A
+    # S M
+    elif down_right == "M" and up_left == "S" and down_left == "S" and up_right == "M":
+        return True
+
+    #  M S
+    #   A
+    #  M S
+    elif down_right == "S" and up_left == "M" and down_left == "M" and up_right == "S":
+        return True
+
+    return False
 
 
 sum = 0
