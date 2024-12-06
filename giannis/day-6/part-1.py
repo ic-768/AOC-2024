@@ -1,7 +1,7 @@
 from typing import List
 
 
-def find_guard(text: List[str]) -> List[int]:
+def find_guard(text: List[str]):
     for y, line in enumerate(text):
         for x, char in enumerate(line):
             if char == "^":
@@ -11,10 +11,10 @@ def find_guard(text: List[str]) -> List[int]:
 
 
 # up, right, down, left
-directions = [[0, -1], [1, 0], [0, 1], [-1, 0]]
+directions = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
 
-def get_next_direction(current: List[int]) -> List[int]:
+def get_next_direction(current):
     index = directions.index(current)
     return directions[(index + 1) % len(directions)]
 
