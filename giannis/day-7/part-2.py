@@ -1,7 +1,4 @@
-# ! 227655036461766
-
 sum = 0
-
 
 with open("input.txt", "r") as file:
     text = file.read().splitlines()
@@ -28,7 +25,9 @@ with open("input.txt", "r") as file:
             # update combinations
             combinations = next_combinations
 
-            if result in combinations:
+            # equation equals result - exit
+            is_last_operand = i == len(operands) - 2
+            if result in combinations and is_last_operand:
                 sum += result
                 break
 
