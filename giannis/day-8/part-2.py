@@ -30,20 +30,10 @@ with open("input.txt", "r") as file:
                             target_1 = {"y": y, "x": x}
                             target_2 = {"y": y_seeked, "x": x_seeked}
 
+                            # iterate over both directions in the loops
                             while 0 <= target_1["y"] < len(text) and 0 <= target_1[
                                 "x"
                             ] < len(text):
-                                target_1["y"] -= distance["y"]
-                                target_1["x"] -= distance["x"]
-
-                                if (
-                                    target_1["y"] < 0
-                                    or target_1["x"] < 0
-                                    or target_1["y"] >= len(text)
-                                    or target_1["x"] >= len(line)
-                                ):
-                                    break
-
                                 antinodes[
                                     (
                                         target_1["y"],
@@ -51,31 +41,24 @@ with open("input.txt", "r") as file:
                                     )
                                 ] = "#"
 
+                                target_1["y"] -= distance["y"]
+                                target_1["x"] -= distance["x"]
+
                             while 0 <= target_2["y"] < len(text) and 0 <= target_2[
                                 "x"
                             ] < len(line):
-                                target_2["y"] += distance["y"]
-                                target_2["x"] += distance["x"]
-
-                                if (
-                                    target_2["y"] >= len(text)
-                                    or target_2["y"] < 0
-                                    or target_2["x"] >= len(line)
-                                    or target_2["x"] < 0
-                                ):
-                                    break
-
                                 antinodes[
                                     target_2["y"],
                                     target_2["x"],
                                 ] = "#"
 
+                                target_2["y"] += distance["y"]
+                                target_2["x"] += distance["x"]
+
 for each in antinodes:
     y = each[0]
     x = each[1]
     text[y][x] = "#"
-
-result = "\n".join("".join(line) for line in text)
 
 for line in text:
     for character in line:
