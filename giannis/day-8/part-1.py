@@ -22,7 +22,6 @@ with open("input.txt", "r") as file:
         for x, char_init in enumerate(line):
             if is_antenna(char_init):
                 for y_seeked in range(y, len(text)):
-                    # if this was on previous row, at index 9, we limit ourselves to all 9-s and after
                     for x_seeked in range(x + 1 if y_seeked == y else 0, len(line)):
                         if text[y_seeked][x_seeked] == char_init:
                             distance = get_distance(x, y, x_seeked, y_seeked)
