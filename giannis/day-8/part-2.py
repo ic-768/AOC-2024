@@ -1,6 +1,5 @@
 import re
 
-sum = 0
 antenna_pattern = r"[a-zA-Z0-9]"
 
 
@@ -22,23 +21,28 @@ with open("input.txt", "r") as file:
         for x, char_init in enumerate(line):
             if is_antenna(char_init):
                 for y_seeked in range(y, len(text)):
-                    for x_seeked in range(x + 1 if y_seeked == y else 0, len(line)):
+                    # if on same line, start after current character, else start from beginning of line
+                    start_index = x + 1 if y_seeked == y else 0
+
+                    for x_seeked in range(start_index, len(line)):
                         if text[y_seeked][x_seeked] == char_init:
                             distance = get_distance(x, y, x_seeked, y_seeked)
 
-                            # create symmetrical antinodes
+                            # start at antennas
                             target_1 = {"y": y, "x": x}
-                            target_2 = {"y": y_seeked, "x": x_seeked}
+                            target_2 = {
+                                "y": y_seeked,
+                                "x": x_seeked,
+                            }
 
-                            # iterate over both directions in the loops
+                            # iterate over both directions at fixed distance, adding antinodes
                             while 0 <= target_1["y"] < len(text) and 0 <= target_1[
                                 "x"
                             ] < len(text):
+                                # antennas count as antinodes too, so we set before incrementing
                                 antinodes[
-                                    (
-                                        target_1["y"],
-                                        target_1["x"],
-                                    )
+                                    target_1["y"],
+                                    target_1["x"],
                                 ] = "#"
 
                                 target_1["y"] -= distance["y"]
@@ -60,8 +64,4 @@ for each in antinodes:
     x = each[1]
     text[y][x] = "#"
 
-for line in text:
-    for character in line:
-        if is_antenna(character) or character == "#":
-            sum += 1
-print(sum)
+print(len(antinodes))
