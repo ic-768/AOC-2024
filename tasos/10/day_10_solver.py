@@ -9,11 +9,15 @@ starting_points=[]
 
 global_metavliti=[]
 
+global_souma=0
+
 def get_neighbors(point,value,returned):
 
 	global c
 
 	global global_metavliti
+	global global_souma
+
 
 	x=point["x"]
 	y=point["y"]
@@ -27,8 +31,11 @@ def get_neighbors(point,value,returned):
 	if len(points)==0:
 		pass
 	if value==8:
+		global_souma+=len(points)
+
 		points=[i for i in points if i not in global_metavliti]
 		global_metavliti.extend(points)
+
 	else:	
 		[get_neighbors(p,value+1,returned) for p in points]
 
@@ -57,3 +64,4 @@ for y,line in enumerate(c):
 print(c[2][7])
 
 print(ssum)
+print(global_souma)
