@@ -18,50 +18,48 @@ with open("sample.txt", "r") as file:
 
     # iterate from end of the list
     decoded = list("00...111...2....888899")
-    last_checked = len(decoded) - 1
-    while last_checked > 0:
-        try:
-            first_free = decoded.index(".")
-            if last_checked < first_free:
-                break
-        except:
-            break
+    print(decoded)
 
-        for i in range(len(decoded) - 1, -1, -1):
-            # if empty space continue
-            num = decoded[i]
-            if num == ".":
-                continue
+    char_lengths = []
 
-            # how many same numbers in a row
-            num_contiguous = 1
-
-            # iterate through a block of same numbers
-            # look at next numbers and determine if they fit
-
-            while True:
-                last_checked -= 1
-                if decoded[i - num_contiguous] == num:
-                    num_contiguous += 1
+    j = len(decoded) - 1
+    while j >= 0:
+        char = decoded[j]
+        contiguous = 1
+        while True:
+            if char != ".":
+                if decoded[j - 1] == char:
+                    contiguous += 1
+                    j -= 1
                 else:
+                    j -= 1
                     break
-
-            if last_checked <= 0:
+            else:
+                j -= 1
                 break
+        if char != ".":
+            char_lengths.append({"char": char, "space": contiguous})
 
-            # iterate through list and look for consecutive free spaces
-            num_free = 0
+        # iterate through list and look for consecutive free spaces
+        num_free = 0
 
-            print("".join(decoded))
-            for x in range(len(decoded)):
-                if decoded[x] == "." and x < i:
-                    num_free += 1
-                    if num_free == num_contiguous:
-                        decoded[x - num_contiguous + 1 : x + 1] = [
-                            str(num)
-                        ] * num_contiguous
-                        decoded[i - num_contiguous + 1 : i + 1] = ["."] * num_contiguous
-                        num_free = 0
+    for idx, each in enumerate(char_lengths):
+        print(char_lengths)
+        xj = 0
+        contiguous_j = 0
+        while xj < len(decoded):
+            char_j = decoded[xj]
+            if char_j == ".":
+                contiguous_j += 1
+                xj += 1
+            else:
+                if xj >= 0:
+                    if contiguous_j >= each["space"]:
+                        # TODO assign correctly
+                        decoded[xj - contiguous_j : xj - 1] = [each["char"]] * each[
+                            "space"
+                        ]
+                        char_lengths.pop(idx)
+                        print("".join(decoded))
                         break
-                else:
-                    num_free = 0
+                xj += 1
