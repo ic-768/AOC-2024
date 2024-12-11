@@ -1,4 +1,4 @@
-with open("sample.txt", "r") as file:
+with open("input.txt", "r") as file:
     text = file.read().splitlines()[0]
     char_number = 0
 
@@ -17,7 +17,6 @@ with open("sample.txt", "r") as file:
             decoded.extend("." * int(char))
 
     # iterate from end of the list
-    decoded = [".", ".", "0", "0", "9", "9", "2", "3"]
     char_lengths = []
 
     j = len(decoded) - 1
@@ -51,27 +50,24 @@ with open("sample.txt", "r") as file:
                 space_index += 1
             else:
                 # if free space is after index of char we are done
-                if space_index > each["idx"]:
+                if space_index - 1 > each["idx"]:
                     break
 
                 if space_index >= 0:
                     if contiguous_space >= each["space"]:
-                        # replace free space
-                        for i in range(
-                            space_index - contiguous_space,
-                            space_index - contiguous_space + each["space"],
-                        ):
-                            decoded[i] = each["char"]
+                        # replace
+                        decoded[
+                            space_index - contiguous_space : space_index
+                            - contiguous_space
+                            + each["space"]
+                        ] = [each["char"]] * each["space"]
 
-                        # replace numbers
-                        for i in range(
-                            each["idx"] + 1, each["idx"] + each["space"] + 1
-                        ):
-                            decoded[i] = "."
+                        decoded[each["idx"] + 1 : each["idx"] + each["space"] + 1] = [
+                            "."
+                        ] * each["space"]
 
                         contiguous_space = 0
                         break
-                print(decoded)
                 contiguous_space = 0
                 space_index += 1
 
@@ -80,5 +76,4 @@ sum = 0
 for i, each in enumerate(decoded):
     if each != ".":
         sum += int(each) * i
-
-print("sum is", sum)
+print(sum)
