@@ -19,19 +19,18 @@ def traverse_trails(point, value, returned):
         return sum(traverse_trails(p, value + 1, returned) for p in neighbors)
 
 
-total_num_9 = 0
-
 with open("input.txt") as f:
     file = f.read().split("\n")
     file = [list(i) for i in file]
     l_y = len(file) - 1
     l_x = len(file[0])
 
+    total_sum = 0
     for y, line in enumerate(file):
         for x, char in enumerate(line):
             if char == "0":
                 point = {"x": x, "y": y}
-                total_num_9 += traverse_trails(point, 0, [])
+                total_sum += traverse_trails(point, 0, [])
 
 
-print(total_num_9)
+print(total_sum)

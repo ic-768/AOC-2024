@@ -8,6 +8,7 @@ def traverse_trails(point, value, returned):
         {"x": x, "y": y + 1},
         {"x": x, "y": y - 1},
     ]
+
     neighbors = [i for i in neighbors if 0 <= i["x"] < l_x and 0 <= i["y"] < l_y]
     neighbors = [i for i in neighbors if int(file[i["y"]][i["x"]]) == value + 1]
 
@@ -26,13 +27,13 @@ with open("input.txt") as f:
     l_y = len(file) - 1
     l_x = len(file[0])
 
-    my_sum = 0
+    unique_sum = 0
     for y, line in enumerate(file):
         for x, char in enumerate(line):
             unique_num_9 = []
             if char == "0":
                 point = {"x": x, "y": y}
-                my_sum += traverse_trails(point, 0, [])
+                unique_sum += traverse_trails(point, 0, [])
 
 
-print(my_sum)
+print(unique_sum)
