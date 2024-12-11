@@ -17,7 +17,6 @@ with open("sample.txt", "r") as file:
             decoded.extend("." * int(char))
 
     # iterate from end of the list
-
     decoded = [".", ".", "0", "0", "9", "9", "2", "3"]
     char_lengths = []
 
@@ -57,8 +56,6 @@ with open("sample.txt", "r") as file:
 
                 if space_index >= 0:
                     if contiguous_space >= each["space"]:
-                        # get the range correct - pointer is at first non-space element, and we want to add the number range from the start of the non-spaces
-
                         # replace free space
                         for i in range(
                             space_index - contiguous_space,
@@ -67,7 +64,6 @@ with open("sample.txt", "r") as file:
                             decoded[i] = each["char"]
 
                         # replace numbers
-
                         for i in range(
                             each["idx"] + 1, each["idx"] + each["space"] + 1
                         ):
