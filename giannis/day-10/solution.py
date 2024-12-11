@@ -1,26 +1,24 @@
-def get_neighbors(point, value, returned):
-    global total_num_9
-
+def traverse_trails(point, value, returned):
     x = point["x"]
     y = point["y"]
 
-    points = [
+    neighbors = [
         {"x": x + 1, "y": y},
         {"x": x - 1, "y": y},
         {"x": x, "y": y + 1},
         {"x": x, "y": y - 1},
     ]
-    points = [i for i in points if 0 <= i["x"] < l_x and 0 <= i["y"] < l_y]
-    points = [i for i in points if int(file[i["y"]][i["x"]]) == value + 1]
+
+    neighbors = [i for i in neighbors if 0 <= i["x"] < l_x and 0 <= i["y"] < l_y]
+    neighbors = [i for i in neighbors if int(file[i["y"]][i["x"]]) == value + 1]
 
     if value == 8:
-        total_num_9 += len(points)
-
-        unique_points = [i for i in points if i not in unique_num_9]
+        unique_points = [i for i in neighbors if i not in unique_num_9]
         unique_num_9.extend(unique_points)
+        return len(neighbors)
 
     else:
-        [get_neighbors(p, value + 1, returned) for p in points]
+        return sum(traverse_trails(p, value + 1, returned) for p in neighbors)
 
 
 total_unique_num_9 = 0
@@ -37,10 +35,9 @@ with open("input.txt") as f:
             unique_num_9 = []
             if char == "0":
                 point = {"x": x, "y": y}
-                get_neighbors(point, 0, [])
+                total_num_9 += traverse_trails(point, 0, [])
                 total_unique_num_9 += len(unique_num_9)
 
 
 print(total_unique_num_9)
 print(total_num_9)
-
