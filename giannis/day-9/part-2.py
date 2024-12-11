@@ -1,4 +1,4 @@
-with open("sample.txt", "r") as file:
+with open("input.txt", "r") as file:
     text = file.read().splitlines()[0]
     char_number = 0
 
@@ -17,8 +17,6 @@ with open("sample.txt", "r") as file:
             decoded.extend("." * int(char))
 
     # iterate from end of the list
-    decoded = list("00...111...2....888899")
-    print(decoded)
 
     char_lengths = []
 
@@ -38,28 +36,52 @@ with open("sample.txt", "r") as file:
                 j -= 1
                 break
         if char != ".":
-            char_lengths.append({"char": char, "space": contiguous})
+            char_lengths.append({"char": char, "space": contiguous, "idx": j})
 
         # iterate through list and look for consecutive free spaces
         num_free = 0
 
+    print(len(char_lengths))
     for idx, each in enumerate(char_lengths):
-        print(char_lengths)
-        xj = 0
-        contiguous_j = 0
-        while xj < len(decoded):
-            char_j = decoded[xj]
+        space_index = 0
+        contiguous_space = 0
+        while space_index < len(decoded):
+            char_j = decoded[space_index]
             if char_j == ".":
-                contiguous_j += 1
-                xj += 1
+                contiguous_space += 1
+                space_index += 1
             else:
-                if xj >= 0:
-                    if contiguous_j >= each["space"]:
-                        # TODO assign correctly
-                        decoded[xj - contiguous_j : xj - 1] = [each["char"]] * each[
-                            "space"
-                        ]
-                        char_lengths.pop(idx)
-                        print("".join(decoded))
+                # if free space is after index of char we are done
+                if space_index > each["idx"]:
+                    break
+
+                if space_index >= 0:
+                    if contiguous_space >= each["space"]:
+                        # get the range correct - pointer is at first non-space element, and we want to add the number range from the start of the non-spaces
+
+                        # replace free space
+                        for i in range(
+                            space_index + 1 - contiguous_space,
+                            space_index + 1 - contiguous_space + each["space"],
+                        ):
+                            decoded[i - 1] = each["char"]
+
+                        # replace numbers
+
+                        for i in range(
+                            each["idx"] + 1, each["idx"] + each["space"] + 1
+                        ):
+                            decoded[i] = "."
+
+                        contiguous_space = 0
                         break
-                xj += 1
+                contiguous_space = 0
+                space_index += 1
+
+sum = 0
+
+for i, each in enumerate(decoded):
+    if each != ".":
+        sum += int(each) * i
+
+print("sum is", sum)
