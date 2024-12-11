@@ -1,4 +1,4 @@
-with open("input.txt", "r") as file:
+with open("sample.txt", "r") as file:
     text = file.read().splitlines()[0]
     char_number = 0
 
@@ -18,6 +18,7 @@ with open("input.txt", "r") as file:
 
     # iterate from end of the list
 
+    decoded = [".", ".", "0", "0", "9", "9", "2", "3"]
     char_lengths = []
 
     j = len(decoded) - 1
@@ -41,7 +42,6 @@ with open("input.txt", "r") as file:
         # iterate through list and look for consecutive free spaces
         num_free = 0
 
-    print(len(char_lengths))
     for idx, each in enumerate(char_lengths):
         space_index = 0
         contiguous_space = 0
@@ -61,10 +61,10 @@ with open("input.txt", "r") as file:
 
                         # replace free space
                         for i in range(
-                            space_index + 1 - contiguous_space,
-                            space_index + 1 - contiguous_space + each["space"],
+                            space_index - contiguous_space,
+                            space_index - contiguous_space + each["space"],
                         ):
-                            decoded[i - 1] = each["char"]
+                            decoded[i] = each["char"]
 
                         # replace numbers
 
@@ -75,6 +75,7 @@ with open("input.txt", "r") as file:
 
                         contiguous_space = 0
                         break
+                print(decoded)
                 contiguous_space = 0
                 space_index += 1
 
