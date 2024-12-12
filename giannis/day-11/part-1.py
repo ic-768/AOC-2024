@@ -1,6 +1,6 @@
 num_blinks = 0
 
-with open("input.txt") as file:
+with open("sample.txt") as file:
     stones = [int(num) for num in file.read().split()]
 
     while num_blinks < 25:
