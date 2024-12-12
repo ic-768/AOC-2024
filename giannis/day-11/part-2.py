@@ -14,33 +14,39 @@ with open("input.txt") as file:
         next_counts = {}
         for stone in stone_counts:
             string = str(stone)
+            num_stones = stone_counts[stone]
 
             # add number of pre-transformed stones to the transformed for the next-round
             if stone == 0:
                 if 1 in next_counts:
-                    next_counts[1] += stone_counts[stone]
+                    next_counts[1] += num_stones
                 else:
-                    next_counts[1] = stone_counts[stone]
+                    next_counts[1] = num_stones
 
             elif len(string) % 2 == 0:
                 new_stones = list(
                     map(int, [string[: len(string) // 2], string[len(string) // 2 :]])
                 )
 
-                if (new_stones[0]) in next_counts:
-                    next_counts[(new_stones[0])] += stone_counts[stone]
-                else:
-                    next_counts[(new_stones[0])] = stone_counts[stone]
+                left = new_stones[0]
+                right = new_stones[1]
 
-                if (new_stones[1]) in next_counts:
-                    next_counts[(new_stones[1])] += stone_counts[stone]
+                if (left) in next_counts:
+                    next_counts[left] += num_stones
                 else:
-                    next_counts[(new_stones[1])] = stone_counts[stone]
+                    next_counts[left] = num_stones
+
+                if (right) in next_counts:
+                    next_counts[right] += num_stones
+                else:
+                    next_counts[right] = num_stones
             else:
-                if (stone * 2024) in next_counts:
-                    next_counts[stone * 2024] += stone_counts[stone]
+                multiplied = stone * 2024
+
+                if (multiplied) in next_counts:
+                    next_counts[multiplied] += num_stones
                 else:
-                    next_counts[stone * 2024] = stone_counts[stone]
+                    next_counts[multiplied] = num_stones
 
         stone_counts = next_counts
         next_counts = {}
