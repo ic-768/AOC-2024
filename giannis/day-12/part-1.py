@@ -55,31 +55,19 @@ with open("input.txt") as file:
             plant = char[0]
 
             # left side
-            if x - 1 >= 0:
-                if lines[y][x - 1] != plant:
-                    perimeter += 1
-            else:
+            if x - 1 < 0 or lines[y][x - 1] != plant:
                 perimeter += 1
 
             # right side
-            if x + 1 < len(lines[0]):
-                if lines[y][x + 1] != plant:
-                    perimeter += 1
-            else:
+            if x + 1 >= len(lines[0]) or lines[y][x + 1] != plant:
                 perimeter += 1
 
             # top side
-            if y - 1 >= 0:
-                if lines[y - 1][x] != plant:
-                    perimeter += 1
-            else:
+            if y - 1 < 0 or lines[y - 1][x] != plant:
                 perimeter += 1
 
             # bottom side
-            if y + 1 < len(lines):
-                if lines[y + 1][x] != plant:
-                    perimeter += 1
-            else:
+            if y + 1 >= len(lines) or lines[y + 1][x] != plant:
                 perimeter += 1
 
         regions_sum += perimeter * area
