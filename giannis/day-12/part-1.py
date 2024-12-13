@@ -43,7 +43,7 @@ with open("input.txt") as file:
                 regions.append(region_to_fill)
 
     regions_sum = 0
-    for y, region in enumerate(regions):
+    for region in regions:
         perimeter = 0
         area = len(region)
 
@@ -54,24 +54,28 @@ with open("input.txt") as file:
             y = char[2]
             plant = char[0]
 
+            # left side
             if x - 1 >= 0:
                 if lines[y][x - 1] != plant:
                     perimeter += 1
             else:
                 perimeter += 1
 
+            # right side
             if x + 1 < len(lines[0]):
                 if lines[y][x + 1] != plant:
                     perimeter += 1
             else:
                 perimeter += 1
 
+            # top side
             if y - 1 >= 0:
                 if lines[y - 1][x] != plant:
                     perimeter += 1
             else:
                 perimeter += 1
 
+            # bottom side
             if y + 1 < len(lines):
                 if lines[y + 1][x] != plant:
                     perimeter += 1
