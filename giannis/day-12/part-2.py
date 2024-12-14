@@ -1,4 +1,4 @@
-with open("sample.txt") as file:
+with open("input.txt") as file:
     lines = [list(x) for x in file.read().splitlines()]
     regions = []
     visited = set()
@@ -69,81 +69,107 @@ with open("sample.txt") as file:
             nothing_bottom = (y + 1 >= len(lines)) or (lines[y + 1][x] != plant)
 
             nothing_bottom_left = (
-                (y + 1 >= len(lines) or x - 1 < 0 or lines[y + 1][x - 1] != plant)
-                and (x - 1 < 0 or lines[y][x - 1] != plant)
+                # no plant on the left or is different
+                (x - 1 < 0 or lines[y][x - 1] != plant)
+                # no plant on the bottom or is different
                 and (y + 1 >= len(lines) or lines[y + 1][x] != plant)
             )
 
             nothing_bottom_right = (
-                (
-                    y + 1 >= len(lines)
-                    or x + 1 >= len(lines[0])
-                    or lines[y + 1][x + 1] != plant
-                )
-                and (x + 1 >= len(lines[0]) or lines[y][x + 1] != plant)
-                and (y + 1 >= len(lines) or lines[y + 1][x] != plant)
-            )
+                x + 1 >= len(lines[0]) or lines[y][x + 1] != plant
+            ) and (y + 1 >= len(lines) or lines[y + 1][x] != plant)
 
-            nothing_top_left = (
-                (y - 1 < 0 or x - 1 < 0 or lines[y - 1][x - 1] != plant)
-                and (x - 1 < 0 or lines[y][x - 1] != plant)
-                and (y - 1 < 0 or lines[y - 1][x] != plant)
+            nothing_top_left = (x - 1 < 0 or lines[y][x - 1] != plant) and (
+                y - 1 < 0 or lines[y - 1][x] != plant
             )
 
             nothing_top_right = (
-                # top-right is out of bounds or another plant
-                (y - 1 < 0 or x + 1 >= len(lines[0]) or lines[y - 1][x + 1] != plant)
-                and
-                # no/different plant directly to the right
-                (
-                    (x + 1 >= len(lines[0]) or lines[y][x + 1] != plant)
-                    # no/different plant directly above
-                    and (y - 1 < 0 or lines[y - 1][x] != plant)
-                )
-                # no/different plant directly to the top
-                and (y - 1 < 0 or lines[y - 1][x] != plant)
-            )
+                x + 1 >= len(lines[0]) or lines[y][x + 1] != plant
+            ) and (y - 1 < 0 or lines[y - 1][x] != plant)
 
             inverted_top_right = (
-                # top-right is out of bounds or another plant
-                (y - 1 < 0 or x + 1 >= len(lines[0]) or lines[y - 1][x + 1] != plant)
                 # Check for L shape ( one above and one to the right
-                and (x + 1) < len(lines[0])
+                (x + 1) < len(lines[0])
                 and y - 1 >= 0
                 and lines[y][x + 1] == plant
                 and lines[y - 1][x] == plant
+                # and top right should be empty / different
+                and lines[y - 1][x + 1] != plant
             )
 
             inverted_top_left = (
-                # top-left is out of bounds or another plant
-                (y - 1 < 0 or x - 1 < 0 or lines[y - 1][x - 1] != plant)
                 # Check for L shape ( one above and one to the left
-                and x - 1 >= 0
+                x - 1 >= 0
                 and y - 1 >= 0
                 and lines[y][x - 1] == plant
                 and lines[y - 1][x] == plant
+                # and top left should be empty / different
+                and lines[y - 1][x - 1] != plant
+            )
+
+            inverted_bottom_right = (
+                # Check for L shape ( one bottom and one to the right
+                (x + 1) < len(lines[0])
+                and (y + 1) < len(lines)
+                and lines[y][x + 1] == plant
+                and lines[y + 1][x] == plant
+                # and bottom right should be empty / different
+                and x + 1 < len(lines[0])
+                and lines[y + 1][x + 1] != plant
+            )
+
+            inverted_bottom_left = (
+                # Check for L shape ( one bottom and one to the left)
+                x - 1 >= 0
+                and y + 1 < len(lines)
+                and lines[y][x - 1] == plant
+                and lines[y + 1][x] == plant
+                # and bottom left should be empty / different
+                and x - 1 > 0
+                and lines[y + 1][x - 1] != plant
             )
 
             # shouldn't have something to it's right OR also have something above it
 
             if nothing_bottom_left:
+                # print(char)
                 # print("bottom-left")
                 perimeter += 1
 
             if nothing_bottom_right:
+                # print(char)
                 # print("bottom-right")
                 perimeter += 1
 
             if nothing_top_left:
+                # print(char)
                 # print("top-left")
                 perimeter += 1
 
             if nothing_top_right:
+                # print(char)
                 # print("top-right")
                 perimeter += 1
 
             if inverted_top_right:
-                print(char)
-                print("inverted top-right")
+                # print(char)
+                # print("inverted top-right")
                 perimeter += 1
+
+            if inverted_bottom_right:
+                # print(char)
+                # print("inverted bottom-right")
+                perimeter += 1
+
+            if inverted_top_left:
+                # print(char)
+                # print("inverted top-left")
+                perimeter += 1
+
+            if inverted_bottom_left:
+                # print(char)
+                # print("inverted bottom-left")
+                perimeter += 1
+
         regions_sum += perimeter * area
+print(regions_sum)
